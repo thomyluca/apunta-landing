@@ -1,0 +1,446 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Apuntá · Aprendé con los que ya aprobaron</title>
+<meta name="description" content="Todas las clases de apoyo de tu facultad en un calendario: anotate, tené el material de cada clase y seguí tu avance hasta la mesa.">
+<meta property="og:title" content="Apuntá · Aprendé con los que ya aprobaron">
+<meta property="og:description" content="Las tutorías y clases de apoyo de tu facultad, en un solo lugar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Crect width=%22100%22 height=%22100%22 rx=%2222%22 fill=%22%2316224a%22/%3E%3Ctext x=%2250%22 y=%2270%22 font-size=%2262%22 font-family=%22Arial%22 font-weight=%22700%22 text-anchor=%22middle%22 fill=%22%23fff05a%22%3EA%3C/text%3E%3C/svg%3E">
+<style>html,body{margin:0}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: una hoja de cuaderno cuadriculado. Birome azul para el texto, resaltador para lo importante, notas al margen en letra manuscrita. */
+:root{
+  --paper:#fdfdfb; --grid:#e4eaf4; --ink:#16224a; --ink-soft:#4b587a; --line:#d6dceb;
+  --blue:#2050d6; --blue-deep:#16224a; --mark:#fff05a; --mark2:#ffd1e8; --card:#ffffff; --on-blue:#ffffff;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"Figtree","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  --f-hand:"Caveat","Segoe Print",cursive;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --paper:#0e1526; --grid:#172139; --ink:#e7ecf8; --ink-soft:#a2aec8; --line:#28354f;
+  --blue:#7ea2ff; --blue-deep:#1b2a55; --mark:#6d6414; --mark2:#5a2a45; --card:#141c30; --on-blue:#0e1526; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --paper:#0e1526; --grid:#172139; --ink:#e7ecf8; --ink-soft:#a2aec8; --line:#28354f;
+  --blue:#7ea2ff; --blue-deep:#1b2a55; --mark:#6d6414; --mark2:#5a2a45; --card:#141c30; --on-blue:#0e1526; color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--paper);color:var(--ink);font:17px/1.6 var(--f-body);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:26px 26px}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+.in{max-width:1120px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:4px}
+.hl{background:linear-gradient(100deg,transparent 2%,var(--mark) 4%,var(--mark) 96%,transparent 98%);background-size:100% 46%;background-position:0 88%;background-repeat:no-repeat;padding:0 3px}
+.hand{font-family:var(--f-hand);color:var(--blue);font-weight:700}
+.btn{display:inline-flex;align-items:center;gap:10px;font:700 17px/1 var(--f-body);padding:16px 22px;border-radius:10px;text-decoration:none;border:2px solid var(--ink);cursor:pointer}
+.btn.primary{background:var(--blue);color:var(--on-blue);border-color:var(--blue);box-shadow:4px 4px 0 var(--ink)}
+.btn.primary:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn.ghost{background:transparent;color:var(--ink)}
+@media (prefers-reduced-motion:no-preference){.btn{transition:transform .12s,box-shadow .12s}}
+
+/* nav */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top .in{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:12px}
+.logo{font:800 26px/1 var(--f-display);letter-spacing:-.03em;text-decoration:none}
+.logo span{color:var(--blue)}
+.top nav{display:flex;gap:22px;font-weight:600;font-size:15px}
+.top nav a{text-decoration:none;color:var(--ink-soft)}
+.top nav a:hover{color:var(--ink)}
+.top .btn{padding:10px 16px;font-size:15px;box-shadow:3px 3px 0 var(--ink)}
+
+/* S1 hero */
+.hero .in{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:48px;align-items:center;padding-block:64px 56px}
+.hero .kick{font:500 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+.hero h1{font:800 clamp(44px,7vw,82px)/.98 var(--f-display);letter-spacing:-.04em;margin:18px 0 20px;text-wrap:balance}
+.hero p.sub{font-size:20px;color:var(--ink-soft);max-width:34ch;margin:0 0 28px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.hero .trust{margin-top:22px;font-size:14px;color:var(--ink-soft)}
+/* tarjeta de apunte */
+.sheet{position:relative;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:26px 26px 22px 54px;box-shadow:0 18px 40px -22px rgba(22,34,74,.45);transform:rotate(1.6deg)}
+.sheet::before{content:"";position:absolute;left:36px;top:0;bottom:0;width:2px;background:var(--mark2)}
+.sheet .holes{position:absolute;left:12px;top:24px;bottom:24px;display:flex;flex-direction:column;justify-content:space-between}
+.sheet .holes i{width:12px;height:12px;border-radius:50%;background:var(--paper);border:1px solid var(--line)}
+.sheet .mat{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft)}
+.sheet h3{font:700 22px/1.2 var(--f-display);margin:8px 0 12px;padding-right:64px}
+.sheet .mat{padding-right:70px}
+.sheet ul{margin:0;padding-left:18px;font-size:15px}
+.sheet li{margin-bottom:6px}
+.sheet .stamp{position:absolute;right:-14px;top:-18px;background:var(--blue);color:var(--on-blue);font:700 13px/1.15 var(--f-body);padding:10px 12px;border-radius:50%;width:92px;height:92px;display:flex;align-items:center;justify-content:center;text-align:center;transform:rotate(10deg);box-shadow:3px 3px 0 var(--ink)}
+.sheet .margin{position:absolute;left:-8px;bottom:-34px;font:700 24px/1 var(--f-hand);color:var(--blue);transform:rotate(-4deg)}
+.sheet .bar{display:flex;align-items:center;gap:10px;margin-top:14px;font:500 12px var(--f-mono);color:var(--ink-soft)}
+.sheet .bar b{flex:1;height:8px;border-radius:4px;background:var(--grid);position:relative;overflow:hidden}
+.sheet .bar b::after{content:"";position:absolute;inset:0 22% 0 0;background:var(--blue);border-radius:4px}
+
+/* ticker de materias */
+.subjects{border-block:2px solid var(--ink);background:var(--mark);color:#16224a;overflow:hidden}
+.subjects .track{display:flex;gap:36px;white-space:nowrap;padding-block:12px;font:700 16px/1 var(--f-display);width:max-content}
+@media (prefers-reduced-motion:no-preference){.subjects .track{animation:slide 38s linear infinite}}
+@keyframes slide{to{transform:translateX(-50%)}}
+.subjects .track span::after{content:"✦";margin-left:36px;font-size:12px;vertical-align:2px}
+
+section.block .in{padding-block:84px}
+.label{font:500 13px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--blue);margin-bottom:12px}
+h2{font:800 clamp(32px,4.6vw,52px)/1.04 var(--f-display);letter-spacing:-.03em;margin:0 0 18px;max-width:20ch;text-wrap:balance}
+.lead{font-size:19px;color:var(--ink-soft);max-width:58ch;margin:0}
+
+/* S2 lo que está en juego */
+.stakes{background:var(--blue-deep);color:#eef2fc}
+.stakes .label{color:var(--mark)}
+.stakes .lead{color:#c3cde6}
+.stakes .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}
+.stakes .c{border:1px solid rgba(255,255,255,.18);border-radius:12px;padding:22px}
+.stakes .c .big{font:800 46px/1 var(--f-display);color:var(--mark)}
+.stakes .c p{margin:10px 0 0;color:#d3dbef;font-size:16px}
+.stakes .cta{margin-top:34px}
+.stakes .btn.primary{background:var(--mark);color:#16224a;border-color:var(--mark);box-shadow:4px 4px 0 #000}
+
+/* S3 propuesta de valor */
+.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:40px}
+.val{background:var(--card);border:2px solid var(--ink);border-radius:12px;padding:24px;box-shadow:5px 5px 0 var(--ink);display:flex;flex-direction:column;gap:8px}
+.val .ico{width:46px;height:46px;border-radius:10px;background:var(--mark);display:grid;place-items:center;border:2px solid var(--ink)}
+.val .ico svg{width:24px;height:24px;stroke:#16224a;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.val h3{font:700 22px/1.2 var(--f-display);margin:8px 0 0}
+.val p{margin:0;color:var(--ink-soft)}
+
+/* S4 el guía */
+.guide .in{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:56px;align-items:start}
+.quotes{display:grid;gap:16px}
+.quote{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 22px 18px;position:relative}
+.quote blockquote{margin:0;font-size:17px}
+.quote figcaption{display:flex;align-items:center;gap:12px;margin-top:14px;font-size:14px;color:var(--ink-soft)}
+.quote .av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font:700 15px var(--f-display);background:var(--mark);color:#16224a;border:2px solid var(--ink)}
+.quote .grade{position:absolute;right:16px;top:-14px;font:700 26px/1 var(--f-hand);color:var(--blue);background:var(--paper);padding:0 8px;transform:rotate(-6deg)}
+.stats{display:flex;flex-wrap:wrap;gap:28px;margin-top:28px}
+.stats div{font-size:14px;color:var(--ink-soft)}
+.stats b{display:block;font:800 36px/1 var(--f-display);color:var(--ink);font-variant-numeric:tabular-nums}
+.disclaimer{font-size:12px;color:var(--ink-soft);margin-top:8px}
+
+/* S5 el plan */
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:44px;counter-reset:s}
+.step{position:relative;padding-top:58px}
+.step::before{counter-increment:s;content:counter(s);position:absolute;top:0;left:0;width:46px;height:46px;border-radius:50%;border:2px solid var(--ink);display:grid;place-items:center;font:800 22px/1 var(--f-display);background:var(--card)}
+.step:not(:last-child)::after{content:"";position:absolute;top:23px;left:58px;right:-12px;border-top:2px dashed var(--line)}
+.step h3{font:700 22px/1.2 var(--f-display);margin:0 0 6px}
+.step p{margin:0;color:var(--ink-soft)}
+.plan-cta{margin-top:40px;display:flex;flex-wrap:wrap;gap:16px;align-items:center}
+
+/* S6 párrafo explicativo */
+.story{background:var(--card);border-block:1px solid var(--line)}
+.story .in{display:grid;grid-template-columns:minmax(0,.7fr) minmax(0,1.3fr);gap:48px}
+.story p{font-size:18px;max-width:62ch;margin:0 0 16px}
+.story .sig{font:700 30px/1 var(--f-hand);color:var(--blue)}
+
+/* lead magnet */
+.lm .in{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:48px;align-items:center}
+.cover{aspect-ratio:3/4;max-width:340px;width:100%;margin:0 auto;background:var(--blue);color:#fff;border-radius:6px 14px 14px 6px;padding:28px 24px;display:flex;flex-direction:column;justify-content:space-between;box-shadow:10px 12px 0 var(--ink);transform:rotate(-2.5deg);border-left:10px solid var(--blue-deep)}
+.cover .t{font:800 40px/.98 var(--f-display);letter-spacing:-.03em}
+.cover .t em{font-style:normal;color:var(--mark)}
+.cover small{font:500 12px/1.4 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+.cover .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.cover .cal i{aspect-ratio:1;border-radius:3px;background:rgba(255,255,255,.22)}
+.cover .cal i.on{background:var(--mark)}
+form.cap{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+form.cap input{flex:1 1 240px;min-width:0;font:500 17px var(--f-body);padding:15px 16px;border-radius:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
+form.cap select{flex:1 1 200px;min-width:0;font:500 16px var(--f-body);padding:14px;border-radius:10px;border:2px solid var(--ink);background:var(--card);color:var(--ink)}
+.ok{margin-top:14px;padding:14px 16px;border-radius:10px;background:var(--mark);color:#16224a;font-weight:600}
+
+/* S8 precios */
+.toggle{display:inline-flex;border:2px solid var(--ink);border-radius:999px;padding:4px;margin-top:26px;background:var(--card)}
+.toggle button{font:700 15px var(--f-body);border:0;background:transparent;color:var(--ink);padding:9px 16px;border-radius:999px;cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.prices{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-top:28px;align-items:stretch}
+.pc{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:26px;display:flex;flex-direction:column;gap:10px;position:relative}
+.pc.feat{border-color:var(--ink);box-shadow:6px 6px 0 var(--blue)}
+.pc .badge{position:absolute;top:-14px;left:22px;background:var(--mark);color:#16224a;border:2px solid var(--ink);font:700 13px/1 var(--f-body);padding:6px 10px;border-radius:6px}
+.pc h3{font:700 22px/1.2 var(--f-display);margin:0}
+.pc .amt{font:800 44px/1 var(--f-display);letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.pc .amt small{font:500 15px var(--f-body);color:var(--ink-soft);letter-spacing:0}
+.pc ul{list-style:none;margin:6px 0 10px;padding:0;display:grid;gap:8px;font-size:15.5px}
+.pc li{padding-left:26px;position:relative}
+.pc li::before{content:"";position:absolute;left:2px;top:6px;width:13px;height:7px;border-left:2.5px solid var(--blue);border-bottom:2.5px solid var(--blue);transform:rotate(-45deg)}
+.pc .btn{margin-top:auto;justify-content:center}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+.extra{border:2px dashed var(--line);border-radius:14px;padding:20px 22px;display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}
+.extra h3{font:700 19px/1.2 var(--f-display);margin:0 0 4px}
+.extra p{margin:0;color:var(--ink-soft);font-size:15px;max-width:40ch}
+.extra .amt{font:800 28px/1 var(--f-display);white-space:nowrap}
+.extra .amt small{font:500 13px var(--f-body);color:var(--ink-soft)}
+
+/* S9 fondo del cajón */
+.faq{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 32px;margin-top:32px}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font:700 18px/1.35 var(--f-display);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font:500 22px/1 var(--f-mono);color:var(--blue)}
+details[open] summary::after{content:"–"}
+details p{margin:10px 0 0;color:var(--ink-soft)}
+footer.foot{background:var(--blue-deep);color:#c9d3ea;margin-top:40px}
+footer.foot .in{padding-block:48px;display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:32px}
+footer.foot .logo{color:#fff}
+footer.foot .logo span{color:var(--mark)}
+footer.foot h4{font:500 12px/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mark);margin:6px 0 14px}
+footer.foot ul{list-style:none;margin:0;padding:0;display:grid;gap:8px;font-size:15px}
+footer.foot .legal{grid-column:1/-1;border-top:1px solid rgba(255,255,255,.15);padding-top:18px;font-size:13px;color:#9eabc9}
+footer.foot a{text-decoration:none}
+
+@media (max-width:880px){
+  .top nav{display:none}
+  .hero .in,.guide .in,.story .in,.lm .in{grid-template-columns:minmax(0,1fr)}
+  .hero .in{padding-block:40px 64px;gap:56px}
+  .sheet{margin:0 10px}
+  .stakes .grid,.vals,.steps,.prices,.extras,.faq{grid-template-columns:minmax(0,1fr)}
+  .step:not(:last-child)::after{display:none}
+  footer.foot .in{grid-template-columns:repeat(2,minmax(0,1fr))}
+  footer.foot .in>div:first-child{grid-column:1/-1}
+  section.block .in{padding-block:60px}
+}
+.cls-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;font-size:14px}
+.cls-row .who{display:flex;align-items:center;gap:8px}
+.cls-row .who i{width:28px;height:28px;border-radius:50%;background:var(--mark);border:2px solid var(--ink);display:grid;place-items:center;font:700 11px var(--f-display);font-style:normal;color:#16224a}
+.chip{font:500 11px/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:5px 8px;border-radius:4px;background:color-mix(in srgb,var(--blue) 14%,transparent);color:var(--blue)}
+.files{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.files span{font:500 12px var(--f-mono);border:1px solid var(--line);border-radius:4px;padding:4px 7px;color:var(--ink-soft)}
+.tutors{background:var(--card);border-block:1px solid var(--line)}
+.tut-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:36px}
+.tut-grid .val{box-shadow:5px 5px 0 var(--blue)}
+.cert{display:flex;gap:18px;align-items:center;margin-top:28px;flex-wrap:wrap}
+.seal{width:110px;height:110px;border-radius:50%;border:3px dashed var(--blue);display:grid;place-items:center;text-align:center;font:800 14px/1.1 var(--f-display);color:var(--blue);transform:rotate(-8deg);flex:none}
+.cert ul{margin:0;padding-left:18px;color:var(--ink-soft)}
+@media (max-width:880px){.tut-grid{grid-template-columns:minmax(0,1fr)}}
+</style>
+
+<header class="top"><div class="in">
+  <a class="logo" href="#inicio">Apunt<span>á</span></a>
+  <nav aria-label="Secciones"><a href="#como">Cómo funciona</a><a href="#tutores">Para tutores</a><a href="#precios">Precios</a><a href="#faq">Preguntas</a></nav>
+  <a class="btn primary" href="#empezar">Apuntate gratis</a>
+</div></header>
+
+<!-- S1 · Encabezado -->
+<section class="hero" id="inicio"><div class="in">
+  <div>
+    <div class="kick">Tutorías y clases de apoyo · UTN FRBA</div>
+    <h1>Aprendé con los que <span class="hl">ya aprobaron</span>.</h1>
+    <p class="sub">Todas las clases de apoyo de tu facultad en un calendario. Anotate, tené el material de cada clase y seguí tu avance hasta la mesa.</p>
+    <div class="ctas">
+      <a class="btn primary" href="#empezar">Apuntate gratis →</a>
+      <a class="btn ghost" href="#tutores">Doy clases</a>
+    </div>
+    <div class="trust">Gratis para alumnos y para quienes dan clases. Sin tarjeta.</div>
+  </div>
+  <div aria-hidden="true">
+    <div class="sheet">
+      <div class="holes"><i></i><i></i><i></i><i></i></div>
+      <div class="stamp">Tutor<br>certificado</div>
+      <div class="mat">Jue 12/11 · 19:00 a 21:00 · Aula virtual</div>
+      <h3>Análisis Matemático II · Integrales dobles y triples</h3>
+      <div class="cls-row"><span class="who"><i>MR</i>Martín R. · 42 h dictadas · ★ 4,8</span><span class="chip">4 de 6 lugares</span></div>
+      <div class="files"><span>📎 guia-integrales.pdf</span><span>📎 finales-2025.pdf</span><span>▶ grabación</span></div>
+      <div class="bar">Tu avance en la materia<b></b></div>
+      <div class="margin">¡quedan 2 lugares! ↑</div>
+    </div>
+  </div>
+</div></section>
+
+<div class="subjects" aria-label="Materias con clases de apoyo"><div class="track">
+  <span>Análisis Matemático II</span><span>Física II</span><span>Algoritmos y Estructuras de Datos</span><span>Sintaxis y Semántica de los Lenguajes</span><span>Paradigmas de Programación</span><span>Sistemas Operativos</span><span>Matemática Superior</span><span>Diseño de Sistemas</span><span>Probabilidad y Estadística</span>
+  <span>Análisis Matemático II</span><span>Física II</span><span>Algoritmos y Estructuras de Datos</span><span>Sintaxis y Semántica de los Lenguajes</span><span>Paradigmas de Programación</span><span>Sistemas Operativos</span><span>Matemática Superior</span><span>Diseño de Sistemas</span><span>Probabilidad y Estadística</span>
+</div></div>
+
+<!-- S2 · Lo que está en juego -->
+<section class="block stakes"><div class="in">
+  <div class="label">Lo que está en juego</div>
+  <h2>La clase de apoyo que necesitabas ya pasó. Y nadie te avisó.</h2>
+  <p class="lead">En la facultad hay alumnos avanzados y agrupaciones dando clases todo el cuatrimestre. El problema es encontrarlas: un flyer en Instagram, un link en un grupo, un Drive que alguien compartió una vez.</p>
+  <div class="grid">
+    <div class="c"><div class="big">5</div><p>grupos de WhatsApp distintos para enterarte de una sola clase de apoyo.</p></div>
+    <div class="c"><div class="big">0</div><p>registro de lo que viste: el material de la clase se pierde en el chat a la semana.</p></div>
+    <div class="c"><div class="big">+1 año</div><p>de carrera puede costarte una cadena de finales pateados por falta de apoyo a tiempo.</p></div>
+  </div>
+  <div class="cta"><a class="btn primary" href="#empezar">Ver las clases de esta semana</a></div>
+</div></section>
+
+<!-- S3 · Propuesta de valor -->
+<section class="block" id="como"><div class="in">
+  <div class="label">Qué te da Apuntá</div>
+  <h2>Toda la ayuda de tu facultad, ordenada.</h2>
+  <div class="vals">
+    <div class="val">
+      <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></div>
+      <h3>Un solo calendario</h3><p>Todas las clases de apoyo por materia: de tutores y de agrupaciones, gratis y pagas. Te anotás con un clic y te avisamos antes.</p>
+    </div>
+    <div class="val">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg></div>
+      <h3>El material a mano</h3><p>Cada clase guarda su material, sus ejercicios y su grabación. Lo encontrás cuando lo necesitás, no en un chat de hace tres meses.</p>
+    </div>
+    <div class="val">
+      <div class="ico"><svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="m7 15 4-4 3 3 5-6"/></svg></div>
+      <h3>Seguimiento de tu avance</h3><p>Qué clases tomaste, qué temas viste y qué te falta para la mesa. Tu cursada, en limpio.</p>
+    </div>
+  </div>
+</div></section>
+
+<!-- S4 · El guía -->
+<section class="block" style="padding-top:0"><div class="in guide">
+  <div>
+    <div class="label">Quiénes somos</div>
+    <h2>Nosotros también buscamos esa clase en cinco grupos.</h2>
+    <p class="lead">Apuntá lo armamos estudiantes de Sistemas de la FRBA. Algunos tomamos clases de apoyo, otros las dimos. Vimos que la ayuda entre estudiantes es lo mejor que tiene la facultad, pero estaba desordenada. Por eso la juntamos en un solo lugar.</p>
+    <div class="stats">
+      <div><b>9</b>materias filtro al lanzamiento</div>
+      <div><b>≥ 8</b>nota mínima para certificarse</div>
+      <div><b>6</b>alumnos máximo por clase paga</div>
+    </div>
+  </div>
+  <div class="quotes">
+    <figure class="quote"><span class="grade">aprobé con 7</span>
+      <blockquote>Me enteré de tres clases de Análisis II que no sabía que existían. Fui a todas y el material quedó guardado para repasar antes de la mesa.</blockquote>
+      <figcaption><span class="av">LG</span>Lucía G. · 2° año</figcaption></figure>
+    <figure class="quote"><span class="grade">tutor</span>
+      <blockquote>Antes armaba todo con un Forms y mil mensajes. Ahora publico la clase, se llena sola y mis horas quedan registradas para certificarme.</blockquote>
+      <figcaption><span class="av">MR</span>Martín R. · 5° año, tutor certificado</figcaption></figure>
+    <p class="disclaimer">Testimonios ilustrativos del prototipo del trabajo práctico.</p>
+  </div>
+</div></section>
+
+<!-- S5 · El plan -->
+<section class="block" style="padding-top:0"><div class="in">
+  <div class="label">El plan</div>
+  <h2>Tres pasos para no estudiar solo.</h2>
+  <div class="steps">
+    <div class="step"><h3>Elegí tus materias</h3><p>Creá tu cuenta gratis y marcá lo que estás cursando o lo que tenés para rendir.</p></div>
+    <div class="step"><h3>Apuntate a una clase</h3><p>Mirá el calendario, elegí una clase gratis o de grupo reducido y reservá tu lugar.</p></div>
+    <div class="step"><h3>Seguí tu avance</h3><p>Repasá el material de cada clase y llegá a la mesa sabiendo qué te falta.</p></div>
+  </div>
+  <div class="plan-cta"><a class="btn primary" href="#empezar">Apuntate gratis →</a><span class="hand" style="font-size:24px">te lleva 1 minuto</span></div>
+</div></section>
+
+<!-- Para tutores y agrupaciones -->
+<section class="block tutors" id="tutores"><div class="in">
+  <div class="label">Para tutores y agrupaciones</div>
+  <h2>Vos ponés las ganas de enseñar. Nosotros, el orden.</h2>
+  <p class="lead">Si ya das clases de apoyo, Apuntá te ahorra la parte que nadie quiere hacer. Publicar es gratis, aunque tus clases sean gratis.</p>
+  <div class="tut-grid">
+    <div class="val"><h3>Gestioná tus clases</h3><p>Calendario, cupos, inscripción, asistencia y material en un mismo lugar. Si cobrás, el pago entra por la plataforma.</p></div>
+    <div class="val"><h3>Llegá a más alumnos</h3><p>Tus clases aparecen en el calendario de la materia, donde los alumnos ya están buscando.</p></div>
+  </div>
+  <div class="cert">
+    <div class="seal">Tutor<br>certificado<br>FRBA</div>
+    <div>
+      <h3 style="font:700 22px/1.2 var(--f-display);margin:0 0 8px">Tu trayectoria, certificada</h3>
+      <ul>
+        <li>Aprobaste la materia con 8 o más</li>
+        <li>Tenés 20 horas dictadas registradas en Apuntá</li>
+        <li>Tus alumnos te valoran con 4,5 o más</li>
+        <li>La facultad avala tu certificado. Las agrupaciones también se certifican.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="plan-cta"><a class="btn primary" href="#empezar">Publicá tu primera clase</a></div>
+</div></section>
+
+<!-- S6 · Párrafo explicativo -->
+<section class="block story"><div class="in">
+  <div><div class="label">Por qué existimos</div><h2>La mejor ayuda de la facultad no debería depender de la suerte.</h2></div>
+  <div>
+    <p>Todos los cuatrimestres, cientos de alumnos avanzados y agrupaciones dan clases de apoyo. Es una red enorme de estudiantes ayudando a estudiantes. Pero si no estás en el grupo correcto, no te enterás, y el material de esas clases desaparece cuando termina el cuatrimestre.</p>
+    <p>En Apuntá ordenamos esa red. Cada clase está en un calendario, cada material queda guardado y cada hora que un tutor dicta suma a su trayectoria. Así el alumno encuentra ayuda a tiempo, el tutor tiene algo que mostrar y la facultad puede ver lo que funciona.</p>
+    <p>Sabemos que te estás preguntando si hace falta pagar. Para la mayoría no: el calendario, las clases gratuitas y el material abierto son gratis para siempre. Pagás solo si querés material específico, prioridad en clases llenas o una clase en grupo reducido.</p>
+    <div class="sig">El equipo de Apuntá</div>
+  </div>
+</div></section>
+
+<!-- Generador de leads -->
+<section class="block lm" id="guia"><div class="in">
+  <div aria-hidden="true"><div class="cover">
+    <small>Guía gratuita · Apuntá</small>
+    <div class="t">Final en <em>14 días</em></div>
+    <div class="cal"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i><i></i><i></i></div>
+    <small>El plan de los que aprueban a la primera</small>
+  </div></div>
+  <div>
+    <div class="label">Guía gratis</div>
+    <h2>El plan de 14 días para aprobar un final.</h2>
+    <p class="lead">Un calendario día por día, el checklist de lo que no puede faltar y en qué días te conviene ir a una clase de apoyo. Te lo mandamos por mail.</p>
+    <form class="cap" id="lead-form" novalidate>
+      <label for="lf-mail" style="position:absolute;left:-9999px">Tu mail</label>
+      <input id="lf-mail" type="email" placeholder="tu@mail.com" required autocomplete="email">
+      <label for="lf-mat" style="position:absolute;left:-9999px">Materia</label>
+      <select id="lf-mat"><option>¿Qué final preparás?</option><option>Análisis Matemático II</option><option>Física II</option><option>Sintaxis y Semántica</option><option>Paradigmas</option><option>Sistemas Operativos</option><option>Otra</option></select>
+      <button class="btn primary" type="submit">Quiero la guía</button>
+    </form>
+    <div class="ok" id="lead-ok" hidden>¡Anotado! Esto es un prototipo: en la versión real te llegaría la guía a tu mail.</div>
+  </div>
+</div></section>
+
+<!-- S8 · Precios -->
+<section class="block" id="precios" style="padding-top:0"><div class="in">
+  <div class="label">Precios</div>
+  <h2>Gratis para empezar. Pagás solo lo que suma.</h2>
+  <p class="lead">Se estudia por temporada, así que podés pagar por mes o solo durante la mesa.</p>
+  <div class="toggle" role="group" aria-label="Modalidad de pago">
+    <button type="button" id="t-mes" aria-pressed="false">Por mes</button>
+    <button type="button" id="t-mesa" aria-pressed="true">Por mesa</button>
+  </div>
+  <div class="prices">
+    <div class="pc"><h3>Alumno</h3><div class="amt">$0</div><p style="margin:0;color:var(--ink-soft)">Todo lo esencial, para siempre.</p>
+      <ul><li>Calendario de todas las clases</li><li>Inscripción a clases gratuitas</li><li>Material abierto y seguimiento básico</li></ul>
+      <a class="btn ghost" href="#empezar">Crear cuenta</a></div>
+    <div class="pc feat"><span class="badge" id="feat-badge">Más elegido en mesas</span><h3 id="feat-name">Pase de Mesa</h3><div class="amt" id="feat-amt">$12.900 <small>/ 6 semanas</small></div><p style="margin:0;color:var(--ink-soft)" id="feat-desc">Todo lo que necesitás durante la temporada de finales.</p>
+      <ul id="feat-list"><li>Apuntes específicos y avanzados</li><li>Prioridad en clases con cupo</li><li>Simulacros de final</li><li>1 clase grupal incluida</li></ul>
+      <a class="btn primary" href="#empezar">Activar</a></div>
+    <div class="pc"><h3>Clase grupo reducido</h3><div class="amt">$8.500 <small>/ clase</small></div><p style="margin:0;color:var(--ink-soft)">Precio de referencia, lo fija cada tutor.</p>
+      <ul><li>2 horas, máximo 6 personas</li><li>Tutor que cursó tu materia</li><li>Material y grabación guardados</li></ul>
+      <a class="btn ghost" href="#empezar">Ver clases</a></div>
+  </div>
+  <div class="extras">
+    <div class="extra"><div><h3>Tutor certificado</h3><p>Badge verificable con aval de la facultad, perfil destacado y comisión reducida al 15%.</p></div><div class="amt">$24.900 <small>/ año</small></div></div>
+    <div class="extra"><div><h3>Agrupación certificada</h3><p>Sello de agrupación, página propia y reporte de alumnos ayudados.</p></div><div class="amt">$59.900 <small>/ año</small></div></div>
+    <div class="extra"><div><h3>¿Sos de una facultad?</h3><p>Implementá Apuntá con tu marca, panel de tutorías y circuito de aval de tutores.</p></div><a class="btn ghost" href="#faq">Hablemos</a></div>
+    <div class="extra"><div><h3>¿Das clases gratis?</h3><p>Publicar y gestionar tus clases no cuesta nada. Nunca.</p></div><a class="btn ghost" href="#tutores">Empezar</a></div>
+  </div>
+</div></section>
+
+<!-- S9 · Fondo del cajón -->
+<section class="block" id="faq" style="padding-top:0"><div class="in">
+  <div class="label">Preguntas frecuentes</div>
+  <h2>Lo que nos preguntan siempre.</h2>
+  <div class="faq">
+    <details><summary>¿Las clases de las agrupaciones siguen siendo gratis?</summary><p>Sí. Cada agrupación decide si cobra o no. Publicar y anotarse a clases gratuitas no cuesta nada.</p></details>
+    <details><summary>¿Quién puede dar clases?</summary><p>Cualquier alumno que haya aprobado la materia. Para certificarse necesita nota 8 o más, 20 horas dictadas y buenas valoraciones.</p></details>
+    <details><summary>¿Qué es la certificación?</summary><p>Un aval de tu trayectoria como tutor, construido con las horas y valoraciones registradas en la plataforma y validado por la facultad. Lo podés mostrar en tu CV y en LinkedIn.</p></details>
+    <details><summary>¿Cuánto cobra Apuntá por una clase paga?</summary><p>Un 20% del precio. Si sos tutor certificado, un 15%. En las clases gratuitas, nada.</p></details>
+    <details><summary>¿Publican material de la cátedra?</summary><p>No. Solo material propio de cada tutor. No se suben guías ni parciales oficiales.</p></details>
+    <details><summary>¿Funciona en otras facultades?</summary><p>Sí, está pensada para que cada facultad tenga su propia instancia. Arrancamos con Sistemas en la FRBA.</p></details>
+  </div>
+</div></section>
+
+<footer class="foot" id="empezar"><div class="in">
+  <div><a class="logo" href="#inicio">Apunt<span>á</span></a><p style="max-width:34ch">Apuntate. Aprendé con los que ya aprobaron.</p><a class="btn primary" href="#guia" style="background:var(--mark);color:#16224a;border-color:var(--mark);box-shadow:4px 4px 0 #000">Apuntate gratis</a></div>
+  <div><h4>Alumnos</h4><ul><li><a href="#como">Cómo funciona</a></li><li><a href="#precios">Precios</a></li><li><a href="#guia">Guía gratis</a></li></ul></div>
+  <div><h4>Dar clases</h4><ul><li><a href="#tutores">Para tutores</a></li><li><a href="#tutores">Para agrupaciones</a></li><li><a href="#precios">Para facultades</a></li></ul></div>
+  <div><h4>Contacto</h4><ul><li>hola@apunta.com.ar</li><li>@apunta.utn</li></ul></div>
+  <div class="legal">Prototipo del trabajo práctico de Gestión Comercial · UTN FRBA · 2026. Marca, testimonios y cifras son ilustrativos.</div>
+</div></footer>
+
+<script>
+(function(){
+  const f=document.getElementById('lead-form'),ok=document.getElementById('lead-ok'),mail=document.getElementById('lf-mail');
+  f.addEventListener('submit',e=>{e.preventDefault();if(!mail.value||!mail.checkValidity()){mail.focus();mail.style.borderColor='#c0362c';return;}mail.style.borderColor='';ok.hidden=false;});
+  const plans={
+    mesa:{badge:'Más elegido en mesas',name:'Pase de Mesa',amt:'$12.900 <small>/ 6 semanas</small>',desc:'Todo lo que necesitás durante la temporada de finales.',list:['Apuntes específicos y avanzados','Prioridad en clases con cupo','Simulacros de final','1 clase grupal incluida']},
+    mes:{badge:'Para cursar al día',name:'Alumno Pro',amt:'$6.900 <small>/ mes</small>',desc:'Acompañamiento todo el cuatrimestre.',list:['Apuntes específicos y avanzados','Prioridad en clases con cupo','Seguimiento completo','10% off en clases grupales']}
+  };
+  const bMes=document.getElementById('t-mes'),bMesa=document.getElementById('t-mesa');
+  function set(k){const p=plans[k];
+    document.getElementById('feat-badge').textContent=p.badge;document.getElementById('feat-name').textContent=p.name;
+    document.getElementById('feat-amt').innerHTML=p.amt;document.getElementById('feat-desc').textContent=p.desc;
+    document.getElementById('feat-list').innerHTML=p.list.map(x=>'<li>'+x+'</li>').join('');
+    bMes.setAttribute('aria-pressed',k==='mes');bMesa.setAttribute('aria-pressed',k==='mesa');}
+  bMes.onclick=()=>set('mes');bMesa.onclick=()=>set('mesa');
+})();
+</script>
+
+</html>
