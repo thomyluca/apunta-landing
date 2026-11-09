@@ -6,4 +6,3 @@ Apuntá es una plataforma para encontrar, dar y medir las clases de apoyo de la 
 
 Equipo: Agustín Ventoso · M. Martínez · T. Balladares · Thomas Luca.
 
-> Prototipo académico. Marca, testimonios y cifras son ilustrativos.
